@@ -32,10 +32,10 @@ int current_deg_servo_3;
 int current_deg_servo_4;
 
 const int mapping[4][2] = {
-  {100,535}, // Dimapping dulu
-  {100,535}, // Dimapping dulu
-  {100,535}, // Dimapping dulu
-  {100,535} // Dimapping dulu
+  {100,535}, // Dimapping dulu {batas bawah, batas atas}
+  {100,535}, // Dimapping dulu {batas bawah, batas atas}
+  {100,535}, // Dimapping dulu {batas bawah, batas atas}
+  {100,535} // Dimapping dulu {batas bawah, batas atas}
 };
 
 void setup() {
@@ -95,19 +95,19 @@ void loop(){
     float dx2 = joyvalX2 * time_dif;
     float dy2 = joyvalY2 * time_dif;
 
-    if(current_deg_servo_1 >= mapping[0][0] && current_deg_servo_1 < mapping[0][1]) {
+    if((current_deg_servo_1 >= mapping[0][0] && current_deg_servo_1 < mapping[0][1]) || (current_deg_servo_1 > mapping[0][1] && joyvalX1 < 0) || (current_deg_servo_1 < mapping[0][0] && joyvalX1 > 0)) {
       current_deg_servo_1 = current_deg_servo_1 + int(dx1);
     }
 
-    if(current_deg_servo_2 >= mapping[1][0] && current_deg_servo_2 < mapping[1][1]) {
+    if((current_deg_servo_2 >= mapping[1][0] && current_deg_servo_2 < mapping[1][1]) || (current_deg_servo_2 > mapping[1][1] && joyvalY1 < 0) || (current_deg_servo_2 < mapping[1][0] && joyvalY1 > 0)) {
       current_deg_servo_2 = current_deg_servo_2 + int(dy1);
     }
 
-    if(current_deg_servo_3 >= mapping[2][0] && current_deg_servo_3 < mapping[2][1]){
+    if((current_deg_servo_3 >= mapping[2][0] && current_deg_servo_3 < mapping[2][1]) || (current_deg_servo_3 > mapping[2][1] && joyvalX2 < 0) || (current_deg_servo_3 < mapping[2][0] && joyvalX2 > 0)){
       current_deg_servo_3 = current_deg_servo_3 + int(dx2);
     }
 
-    if(current_deg_servo_4 >= mapping[3][0] && current_deg_servo_4 < mapping[3][1]) {
+    if((current_deg_servo_4 >= mapping[3][0] && current_deg_servo_4 < mapping[3][1]) || (current_deg_servo_4 > mapping[3][1] && joyvalY2 < 0) || (current_deg_servo_4 < mapping[3][0] && joyvalY2 > 0)) {
       current_deg_servo_4 = current_deg_servo_4 + int(dy2);
     }
 
