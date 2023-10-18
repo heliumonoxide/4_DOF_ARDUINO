@@ -21,58 +21,56 @@ float joyvalY1;
 float joyvalX2;
 float joyvalY2;
 
-int start_degree_1 = 100; // HARUS DIGANTI TERLEBIH DAHULU
-int start_degree_2 = 100; // HARUS DIGANTI TERLEBIH DAHULU
-int start_degree_3 = 100; // HARUS DIGANTI TERLEBIH DAHULU
-int start_degree_4 = 100; // HARUS DIGANTI TERLEBIH DAHULU
+float start_degree_1 = 110; // HARUS DIGANTI TERLEBIH DAHULU
+float start_degree_2 = 0; // HARUS DIGANTI TERLEBIH DAHULU
+float start_degree_3 = 0; // HARUS DIGANTI TERLEBIH DAHULU
+float start_degree_4 = 0; // HARUS DIGANTI TERLEBIH DAHULU
 
-int current_deg_servo_1;
-int current_deg_servo_2;
-int current_deg_servo_3;
-int current_deg_servo_4;
+float current_deg_servo_1;
+float current_deg_servo_2;
+float current_deg_servo_3;
+float current_deg_servo_4;
 
 const int mapping[4][2] = {
-  {100,535}, // Dimapping dulu {batas bawah, batas atas}
-  {100,535}, // Dimapping dulu {batas bawah, batas atas}
-  {100,535}, // Dimapping dulu {batas bawah, batas atas}
-  {100,535} // Dimapping dulu {batas bawah, batas atas}
+  {110,525}, // Dimapping dulu
+  {100,535}, // Dimapping dulu
+  {100,535}, // Dimapping dulu untuk kirir
+  {100,535} // Dimapping dulu
 };
 
 void setup() {
   Serial.begin(9600);
   driver.begin();
-  driver.setPWMFreq(50);
+  driver.setPWMFreq(50);   
   
-  driver.setPWM(servo1, 0, start_degree_1); 
-  driver.setPWM(servo2, 0, start_degree_2); 
-  driver.setPWM(servo3, 0, start_degree_3); 
-  driver.setPWM(servo4, 0, start_degree_4);
+  //driver.setPWM(servo1, 0, start_degree_1); 
+  //driver.setPWM(servo2, 0, start_degree_2); 
+  //driver.setPWM(servo3, 0, start_degree_3); 
+  //driver.setPWM(servo4, 0, start_degree_4);
    
   current_deg_servo_1 = start_degree_1;
   current_deg_servo_2 = start_degree_2;
   current_deg_servo_3 = start_degree_3;
   current_deg_servo_4 = start_degree_4;
   
-  delay(3000);
+  delay(1000);
   
   startTime = millis();
 }
-
-
 void loop(){
     unsigned long currentTime = millis();
     joyvalX1 = analogRead(joyX1);  
-
+    
     // Kalibrasi Joystick X
     joyvalX1 += 12;
 
-    joyvalX1 = map(joyvalX1, 00, 1023, -4, 4);
+    joyvalX1 = map(joyvalX1, 00, 658, -50, 50);
     Serial.println("======================");
-    Serial.println(joyvalX1);   
+    Serial.println(joyvalX1);     
                    
 
     joyvalY1 = analogRead(joyY1);           
-    joyvalY1 = map(joyvalY1, 00, 1023, -4, 4);   
+    joyvalY1 = map(joyvalY1, 00, 658, -50, 50);   
     Serial.println(joyvalY1);  
 
     joyvalX2 = analogRead(joyX2);  
@@ -80,13 +78,13 @@ void loop(){
     // Kalibrasi Joystick X
     joyvalX2 += 12;
 
-    joyvalX2 = map(joyvalX2, 00, 1023, -4, 4);
+    joyvalX2 = map(joyvalX2, 00, 658, -50, 50);
     Serial.println("======================");
-    Serial.println(joyvalX2);                        
+    //Serial.println(joyvalX2);                        
 
     joyvalY2 = analogRead(joyY2);           
-    joyvalY2 = map(joyvalY2, 00, 1023, -4, 4);   
-    Serial.println(joyvalY2);
+    joyvalY2 = map(joyvalY2, 00, 658, -50, 50);   
+    //Serial.println(joyvalY2);
 
     time_dif = float(currentTime - startTime)/1000;
     
@@ -96,27 +94,30 @@ void loop(){
     float dy2 = joyvalY2 * time_dif;
 
     if((current_deg_servo_1 >= mapping[0][0] && current_deg_servo_1 < mapping[0][1]) || (current_deg_servo_1 > mapping[0][1] && joyvalX1 < 0) || (current_deg_servo_1 < mapping[0][0] && joyvalX1 > 0)) {
-      current_deg_servo_1 = current_deg_servo_1 + int(dx1);
+      current_deg_servo_1 = current_deg_servo_1 + dx1;
     }
 
     if((current_deg_servo_2 >= mapping[1][0] && current_deg_servo_2 < mapping[1][1]) || (current_deg_servo_2 > mapping[1][1] && joyvalY1 < 0) || (current_deg_servo_2 < mapping[1][0] && joyvalY1 > 0)) {
-      current_deg_servo_2 = current_deg_servo_2 + int(dy1);
+      current_deg_servo_2 = current_deg_servo_2 + dy1;
     }
 
     if((current_deg_servo_3 >= mapping[2][0] && current_deg_servo_3 < mapping[2][1]) || (current_deg_servo_3 > mapping[2][1] && joyvalX2 < 0) || (current_deg_servo_3 < mapping[2][0] && joyvalX2 > 0)){
-      current_deg_servo_3 = current_deg_servo_3 + int(dx2);
+      current_deg_servo_3 = current_deg_servo_3 + dx2;
     }
 
     if((current_deg_servo_4 >= mapping[3][0] && current_deg_servo_4 < mapping[3][1]) || (current_deg_servo_4 > mapping[3][1] && joyvalY2 < 0) || (current_deg_servo_4 < mapping[3][0] && joyvalY2 > 0)) {
-      current_deg_servo_4 = current_deg_servo_4 + int(dy2);
+      current_deg_servo_4 = current_deg_servo_4 + dy2;
     }
-
+    
+    Serial.println("time dx 1:" +String(dx1));
+    Serial.println("servo bawah:" +String(current_deg_servo_1));
     driver.setPWM(servo1, 0, current_deg_servo_1);
     driver.setPWM(servo2, 0, current_deg_servo_2);
     driver.setPWM(servo3, 0, current_deg_servo_3);
     driver.setPWM(servo4, 0, current_deg_servo_4);
     
     startTime = currentTime;
+
 
     
 }
