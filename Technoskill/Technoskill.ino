@@ -21,7 +21,7 @@ float joyvalY1;
 float joyvalX2;
 float joyvalY2;
 
-float start_degree_1 = 110; // HARUS DIGANTI TERLEBIH DAHULU
+float start_degree_1 = 0; // HARUS DIGANTI TERLEBIH DAHULU
 float start_degree_2 = 0; // HARUS DIGANTI TERLEBIH DAHULU
 float start_degree_3 = 0; // HARUS DIGANTI TERLEBIH DAHULU
 float start_degree_4 = 0; // HARUS DIGANTI TERLEBIH DAHULU
@@ -97,17 +97,25 @@ void loop(){
       current_deg_servo_1 = current_deg_servo_1 + dx1;
     }
 
+    delay(20);
+
     if((current_deg_servo_2 >= mapping[1][0] && current_deg_servo_2 < mapping[1][1]) || (current_deg_servo_2 > mapping[1][1] && joyvalY1 < 0) || (current_deg_servo_2 < mapping[1][0] && joyvalY1 > 0)) {
       current_deg_servo_2 = current_deg_servo_2 + dy1;
     }
 
+    delay(20);
+    
     if((current_deg_servo_3 >= mapping[2][0] && current_deg_servo_3 < mapping[2][1]) || (current_deg_servo_3 > mapping[2][1] && joyvalX2 < 0) || (current_deg_servo_3 < mapping[2][0] && joyvalX2 > 0)){
       current_deg_servo_3 = current_deg_servo_3 + dx2;
     }
 
+    delay(20);
+
     if((current_deg_servo_4 >= mapping[3][0] && current_deg_servo_4 < mapping[3][1]) || (current_deg_servo_4 > mapping[3][1] && joyvalY2 < 0) || (current_deg_servo_4 < mapping[3][0] && joyvalY2 > 0)) {
       current_deg_servo_4 = current_deg_servo_4 + dy2;
     }
+
+    delay(20);
     
     Serial.println("time dx 1:" +String(dx1));
     Serial.println("servo bawah:" +String(current_deg_servo_1));
